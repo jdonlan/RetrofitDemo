@@ -3,9 +3,7 @@ package com.mobiquity.demo.retrofitdemo.objects;
 import com.mobiquity.demo.retrofitdemo.models.OpenWeatherMap;
 
 import retrofit.Callback;
-import retrofit.client.Response;
 import retrofit.http.GET;
-import retrofit.http.Path;
 import retrofit.http.Query;
 
 /**

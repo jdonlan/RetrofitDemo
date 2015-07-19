@@ -8,6 +8,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.mobiquity.demo.retrofitdemo.models.Main;
 import com.mobiquity.demo.retrofitdemo.models.OpenWeatherMap;
+import com.mobiquity.demo.retrofitdemo.models.Sys;
 import com.mobiquity.demo.retrofitdemo.objects.WeatherAPI;
 
 import retrofit.Callback;
@@ -31,21 +32,25 @@ public class MainActivity extends Activity {
 
 
     private void getWeatherByZip(String zip) {
+        /*
         Gson gson = new GsonBuilder()
                 .setDateFormat("yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'SSS'Z'")
                 .create();
+        */
 
-        RestAdapter mRestAdapter = new RestAdapter.Builder()
+        RestAdapter restAdapter = new RestAdapter.Builder()
                 .setEndpoint(BASEURL)
-                .setConverter(new GsonConverter(gson))
+//                .setConverter(new GsonConverter(gson))
                 .build();
 
-        WeatherAPI weatherAPI = mRestAdapter.create(WeatherAPI.class); //this is how retrofit create your api
-        weatherAPI.getWeatherByZip("90210,us", new Callback<OpenWeatherMap>(){
+        WeatherAPI weatherAPI = restAdapter.create(WeatherAPI.class); //this is how retrofit create your api
+        weatherAPI.getWeatherByZip(zip+",us", new Callback<OpenWeatherMap>(){
             @Override
             public void success(OpenWeatherMap openWeatherMap, Response response) {
                 Main main = openWeatherMap.getMain();
-                Log.i(TAG, "Temperature" + main.getTemp().toString());
+                Log.i(TAG, "Temperature: " + main.getTemp().toString());
+                Sys sys = openWeatherMap.getSys();
+                Log.i(TAG, "Sunrise: " + sys.getSunrise().toString());
             }
             @Override
             public void failure(RetrofitError error) {
